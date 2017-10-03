@@ -1,0 +1,59 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "comanda",
+            "otherEntityName": "comanda",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "colaborador",
+            "otherEntityName": "colaborador",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "isentrada",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "data",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "vencimento",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "natureza",
+            "fieldType": "Natureza",
+            "fieldValues": "A_VISTA_DINHEIRO,A_PRAZO_DINHEIRO,A_VISTA_CARTAO,A_PRAZO_CARTAO,A_VISTA_CHEQUE,A_PRAZO_CHEQUE"
+        },
+        {
+            "fieldName": "valor",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "parcelas",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "observacao",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171003112100",
+    "entityTableName": "lancamento",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

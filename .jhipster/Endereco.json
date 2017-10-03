@@ -1,0 +1,47 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "pais",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "estado",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cidade",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "bairro",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "logradouro",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "local",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "cep",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "numero",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "complemento",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171003112051",
+    "entityTableName": "endereco",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

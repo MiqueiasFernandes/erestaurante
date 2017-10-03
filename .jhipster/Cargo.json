@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "nome",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "salario",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "comissao",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "permissao",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "changelogDate": "20171003112057",
+    "entityTableName": "cargo",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

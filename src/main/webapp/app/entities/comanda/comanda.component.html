@@ -1,0 +1,86 @@
+<div>
+    <h2>
+        <span jhiTranslate="eRestauranteApp.comanda.home.title">Comandas</span>
+        <button class="btn btn-primary float-right jh-create-entity create-comanda" [routerLink]="['/', { outlets: { popup: ['comanda-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="eRestauranteApp.comanda.home.createLabel">
+            Create new Comanda
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="comandas">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.codigo">Codigo</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.total">Total</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.status">Status</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.gorjeta">Gorjeta</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.nota">Nota</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.pagador">Pagador</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.mesas">Mesas</span></th>
+            <th><span jhiTranslate="eRestauranteApp.comanda.colaboradores">Colaboradores</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let comanda of comandas ;trackBy: trackId">
+                <td><a [routerLink]="['../comanda', comanda.id ]">{{comanda.id}}</a></td>
+                <td>{{comanda.codigo}}</td>
+                <td>{{comanda.total}}</td>
+                <td jhiTranslate="{{'eRestauranteApp.Status.' + comanda.status}}">{{comanda.status}}</td>
+                <td>{{comanda.gorjeta}}</td>
+                <td>
+                    <div *ngIf="comanda.nota">
+                        <a [routerLink]="['../nota', comanda.nota?.id ]" >{{comanda.nota?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="comanda.pagador">
+                        <a [routerLink]="['../cliente', comanda.pagador?.id ]" >{{comanda.pagador?.id}}</a>
+                    </div>
+                </td>
+                <td>
+                    <span *ngFor="let mesas of comanda.mesas; let last = last">
+                            <a class="form-control-static" [routerLink]="['../mesa', mesas?.id ]">{{mesas.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td>
+                    <span *ngFor="let colaboradores of comanda.colaboradores; let last = last">
+                            <a class="form-control-static" [routerLink]="['../colaborador', colaboradores?.id ]">{{colaboradores.id}}</a>{{last ? '' : ', '}}
+                        </span>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../comanda', comanda.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'comanda/'+ comanda.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'comanda/'+ comanda.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

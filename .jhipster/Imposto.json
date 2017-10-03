@@ -1,0 +1,63 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "descricao",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ivTotTrib",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iICMS",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iIPI",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iII",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iISSQN",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iPIS",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iPISST",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iCOFINS",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iCOFINSST",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "iICMSUFDest",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "ioutros",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "configurar",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171003112059",
+    "entityTableName": "imposto",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

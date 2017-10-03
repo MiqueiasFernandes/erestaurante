@@ -1,0 +1,36 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "produtos",
+            "otherEntityName": "produto",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "nome",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "periodo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "disposicao",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "habilitar",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20171003112058",
+    "entityTableName": "cardapio",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

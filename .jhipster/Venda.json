@@ -1,0 +1,41 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "produto",
+            "otherEntityName": "produto",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "comanda",
+            "otherEntityName": "comanda",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "data",
+            "fieldType": "ZonedDateTime",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "quantidade",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "desconto",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20171003112054",
+    "entityTableName": "venda",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

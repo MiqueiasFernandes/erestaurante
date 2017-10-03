@@ -1,0 +1,23 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "codigo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "local",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "descricao",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171003112053",
+    "entityTableName": "mesa",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}

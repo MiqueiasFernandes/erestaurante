@@ -1,0 +1,71 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "nota",
+            "otherEntityName": "nota",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "comanda"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "lancamento",
+            "otherEntityName": "lancamento",
+            "otherEntityRelationshipName": "comanda"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "pagador",
+            "otherEntityName": "cliente",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipValidateRules": "required",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "mesas",
+            "otherEntityName": "mesa",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipValidateRules": "required",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "colaboradores",
+            "otherEntityName": "colaborador",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "codigo",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "total",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Status",
+            "fieldValues": "VAZIA,ABERTA,FECHADA,PAGA",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "gorjeta",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20171003112055",
+    "entityTableName": "comanda",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no"
+}
