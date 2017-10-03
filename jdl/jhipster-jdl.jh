@@ -1,0 +1,211 @@
+
+
+/*ESQUEMA ERESTAURANTE*/
+
+entity Produto {
+  codigo String,
+  nome String,
+  fornecedor String,
+  estoque Long,
+  valor Long,
+  preco Long,
+  foto ImageBlob,
+  descricao String,
+  observacao String,
+  opcional String,
+  adicional String,
+  unidade Unidade
+}
+
+enum Unidade {
+  METRO, 
+  METRO_QUADRADO, 
+  METRO_CUBICO, 
+  KILOGRAMA, 
+  TONELADA, 
+  LITRO, 
+  UNIDADE,
+  DEZENA,
+  DUZIA,
+  CENTENA,
+  MILHAR,
+  SACA
+}
+
+entity Endereco {
+  pais String,
+  estado String,
+  cidade String,
+  bairro String,
+  logradouro String,
+  local String,
+  cep String,
+  numero Integer,
+  complemento String
+}
+
+entity Cliente {
+  nome String,
+  cpf String,
+  cnpj String,
+  telefone String,
+  email String
+}
+
+entity Mesa {
+  codigo String,
+  local Integer,
+  descricao String
+}
+
+entity Venda {
+  data ZonedDateTime required,
+  quantidade Long,
+  desconto Long
+}
+
+
+entity Comanda {
+  codigo String,
+  total Long,
+  status Status required,
+  gorjeta Long
+}
+
+enum Status {
+  VAZIA, 
+  ABERTA, 
+  FECHADA, 
+  PAGA
+}
+
+entity Colaborador {
+  nome String required,
+  nascimento ZonedDateTime,
+  sexomasculino Boolean,
+  documento String,
+  telefone String,
+  email String,
+  horario String,
+  preferencia String
+}
+
+entity Cargo {
+  nome String,
+  salario Long,
+  comissao Long,
+  permissao TextBlob
+}
+
+entity Cardapio {
+  nome String,
+  periodo String,
+  disposicao String,
+  habilitar Boolean
+}
+
+entity Imposto {
+  descricao String,
+  ivTotTrib Long,
+  iICMS Long,
+  iIPI Long,
+  iII Long,
+  iISSQN Long,
+  iPIS Long,
+  iPISST Long,
+  iCOFINS Long,
+  iCOFINSST Long,
+  iICMSUFDest Long,
+  ioutros String,
+  configurar String
+}
+
+entity Lancamento {
+  isentrada Boolean,
+  data ZonedDateTime required,
+  vencimento ZonedDateTime required,
+  natureza Natureza,
+  valor Long,
+  parcelas Integer,
+  observacao String
+}
+
+enum Natureza {
+  A_VISTA_DINHEIRO, 
+  A_PRAZO_DINHEIRO, 
+  A_VISTA_CARTAO, 
+  A_PRAZO_CARTAO, 
+  A_VISTA_CHEQUE,
+  A_PRAZO_CHEQUE
+}
+
+entity Nota {
+  nfIDENT String,
+  qrcode String,
+  codigo String,
+  identificador String,
+  versao String,
+  nfNotaInfoIdentificacao String,
+  nfNotaInfoEmitente String,
+  nfNotaInfoAvulsa  String,
+  nfNotaInfoDestinatario  String,
+  nfNotaInfoLocal  String,
+  nfNotaInfoLocal String,
+  nfPessoaAutorizadaDownloadNFe String,
+  itens String,
+  nfNotaInfoTotal String,
+  nfNotaInfoTransporte  String,
+  nfNotaInfoCobranca String,
+  nfNotaInfoPagamento String,
+  nfNotaInfoInformacoesAdicionais String,
+  nfNotaInfoExportacao  String,
+  nfNotaInfoCompra  String,
+  nfNotaInfoCana  String,
+  xml TextBlob
+}
+
+entity Restaurante {
+  razaoSocial String,
+  nomeFantasia String,
+  telefone String,
+  celular String,
+  email String,
+  site String,
+  cnpj String,
+  codigo String,
+  codigoSegContribuinte String,
+  licenca String,
+  funcadao ZonedDateTime,
+  logo ImageBlob,
+  pagina TextBlob
+}
+
+relationship OneToOne {
+  Comanda{nota} to Nota,
+  Colaborador{usuario(login) required} to User,
+  Colaborador{endereco} to Endereco,
+  Cliente{endereco} to Endereco,
+  Restaurante{endereco} to Endereco
+}
+
+
+relationship ManyToMany {
+  Colaborador{cargos required} to Cargo,
+  Comanda{mesas required} to Mesa,
+  Comanda{colaboradores required} to Colaborador,
+  Cardapio{produtos} to Produto,
+  Restaurante{proprietario required} to Colaborador
+}
+
+relationship OneToMany {
+  Comanda to Lancamento{comanda},
+  Colaborador to Lancamento{colaborador}
+}
+
+relationship ManyToOne {
+  Nota{imposto} to Imposto, 
+  Comanda{pagador required} to Cliente,
+  Produto{imposto} to Imposto,
+  Venda{produto required} to Produto,
+  Venda{comanda required} to Comanda
+}
