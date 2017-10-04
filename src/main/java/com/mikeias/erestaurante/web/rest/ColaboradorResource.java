@@ -1,6 +1,7 @@
 package com.mikeias.erestaurante.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.mikeias.erestaurante.domain.Cargo;
 import com.mikeias.erestaurante.domain.Colaborador;
 
 import com.mikeias.erestaurante.repository.ColaboradorRepository;
@@ -15,8 +16,10 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * REST controller for managing Colaborador.
@@ -31,7 +34,7 @@ public class ColaboradorResource {
 
     private final ColaboradorRepository colaboradorRepository;
 
-    public ColaboradorResource(ColaboradorRepository colaboradorRepository) {
+    private ColaboradorResource(ColaboradorRepository colaboradorRepository) {
         this.colaboradorRepository = colaboradorRepository;
     }
 
@@ -86,8 +89,25 @@ public class ColaboradorResource {
     @Timed
     public List<Colaborador> getAllColaboradors() {
         log.debug("REST request to get all Colaboradors");
-        return colaboradorRepository.findAllWithEagerRelationships();
+        List<Colaborador> cs =  colaboradorRepository.findAllWithEagerRelationships();
+
+        Colaborador col = colaboradorRepository.findByUsuarioIsCurrentUser();
+
+        if(col.getCargos() != null && !col.getCargos().isEmpty()) {
+            for (Cargo c : col.getCargos()) {
+                if (c.getPermissao() != null && c.getPermissao().contains("colaborador")) {
+                    col.setId((long) -1);
+                    cs.add(col);
+                    return cs;
+                }
+            }
         }
+
+        cs.removeIf(colaborador -> !colaborador.getId().equals(col.getId()));
+
+        return cs;
+
+     }
 
     /**
      * GET  /colaboradors/:id : get the "id" colaborador.
@@ -102,6 +122,7 @@ public class ColaboradorResource {
         Colaborador colaborador = colaboradorRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(colaborador));
     }
+
 
     /**
      * DELETE  /colaboradors/:id : delete the "id" colaborador.

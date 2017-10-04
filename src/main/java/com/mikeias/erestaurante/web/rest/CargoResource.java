@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class CargoResource {
 
     private final CargoRepository cargoRepository;
 
-    public CargoResource(CargoRepository cargoRepository) {
+    private CargoResource(CargoRepository cargoRepository) {
         this.cargoRepository = cargoRepository;
     }
 
@@ -85,8 +87,17 @@ public class CargoResource {
     @Timed
     public List<Cargo> getAllCargos() {
         log.debug("REST request to get all Cargos");
-        return cargoRepository.findAll();
-        }
+      List<Cargo>  cargos =  cargoRepository.getCargosOfCurrentUser();
+
+
+      for (Cargo c : cargos) {
+          if (c.getPermissao() != null && c.getPermissao().contains("cargo"))
+              return cargoRepository.findAll();
+      }
+
+      return cargos;
+
+    }
 
     /**
      * GET  /cargos/:id : get the "id" cargo.
