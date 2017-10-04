@@ -34,7 +34,7 @@ public class ColaboradorResource {
 
     private final ColaboradorRepository colaboradorRepository;
 
-    private ColaboradorResource(ColaboradorRepository colaboradorRepository) {
+    public ColaboradorResource(ColaboradorRepository colaboradorRepository) {
         this.colaboradorRepository = colaboradorRepository;
     }
 

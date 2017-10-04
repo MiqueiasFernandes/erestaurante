@@ -32,7 +32,7 @@ public class CargoResource {
 
     private final CargoRepository cargoRepository;
 
-    private CargoResource(CargoRepository cargoRepository) {
+    public CargoResource(CargoRepository cargoRepository) {
         this.cargoRepository = cargoRepository;
     }
 
