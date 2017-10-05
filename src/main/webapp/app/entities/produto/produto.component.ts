@@ -7,6 +7,8 @@ import { Produto } from './produto.model';
 import { ProdutoService } from './produto.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import {PreferenciasService} from "../preferencias.service";
+import {isNullOrUndefined} from "util";
 
 @Component({
     selector: 'jhi-produto',
@@ -17,18 +19,19 @@ export class ProdutoComponent implements OnInit, OnDestroy {
 
 
     @ViewChild('tableH', {read: ViewContainerRef}) tableHeader;
-
-    produtos: Produto[];
-    currentAccount: any;
-    eventSubscriber: Subscription;
-    checksHeader :boolean[] = [];
+    private modoTabela = false;
+    private produtos: Produto[];
+    private currentAccount: any;
+    private eventSubscriber: Subscription;
+    private checksHeader :boolean[] = [];
 
     constructor(
         private produtoService: ProdutoService,
         private jhiAlertService: JhiAlertService,
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
-        private principal: Principal
+        private principal: Principal,
+        private preferenciaService :PreferenciasService
     ) {
         this.checksHeader["id"] = false;
         this.checksHeader["codigo"] = false;
@@ -52,6 +55,9 @@ export class ProdutoComponent implements OnInit, OnDestroy {
                 this.produtos = res.json;
             },
             (res: ResponseWrapper) => this.onError(res.json)
+        );
+        this.preferenciaService.getPref('pt').subscribe(
+            (pref :string) => this.modoTabela = (!isNullOrUndefined(pref) && pref.endsWith('T'))
         );
     }
     ngOnInit() {
@@ -83,5 +89,13 @@ export class ProdutoComponent implements OnInit, OnDestroy {
 
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
+    }
+
+    setModoTabela() {
+        this.modoTabela = !this.modoTabela;
+        this.preferenciaService.setPreferencia('pt', (this.modoTabela ? 'T' : 'F'));
+        if (!this.modoTabela && !isNullOrUndefined(this.tableHeader)) {
+            this.tableHeader.clear();
+        }
     }
 }

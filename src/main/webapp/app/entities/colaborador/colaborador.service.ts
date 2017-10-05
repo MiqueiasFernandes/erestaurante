@@ -32,10 +32,13 @@ export class ColaboradorService {
         });
     }
 
-    update(colaborador: Colaborador): Observable<Colaborador> {
+    update(colaborador: Colaborador, nnootify? :boolean): Observable<Colaborador> {
         const copy = this.convert(colaborador);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
+
+            if(nnootify)
+                return this.convertItemFromServer(jsonResponse);
 
             this.eventManager.broadcast({
                 name: 'colaborador',

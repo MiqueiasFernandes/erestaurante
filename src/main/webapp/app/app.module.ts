@@ -25,6 +25,8 @@ import {
     ErrorComponent
 } from './layouts';
 import { TableheaderComponent } from './layouts/tableheader/tableheader.component';
+import {PreferenciasService} from "./entities/preferencias.service";
+import {PrivilegiosService} from "./entities/privilegios.service";
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { TableheaderComponent } from './layouts/tableheader/tableheader.componen
         ProfileService,
         customHttpProvider(),
         PaginationConfig,
-        UserRouteAccessService
+        UserRouteAccessService,
+        PreferenciasService,
+        PrivilegiosService
     ],
     entryComponents: [
         TableheaderComponent,

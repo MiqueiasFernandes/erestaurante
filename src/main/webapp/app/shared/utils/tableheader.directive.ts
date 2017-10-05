@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import {TableheaderComponent} from "../../layouts/tableheader/tableheader.component";
+import {isNullOrUndefined} from "util";
 
 @Directive({
     selector: '[jhiTableheader]'
@@ -22,14 +23,25 @@ export class TableheaderDirective implements AfterViewInit{
     colunasRef :ElementRef[][] = [];
     tableHeaderInstance :TableheaderComponent;
 
+    @Input() entidade: string = 'undefined';
+
+    @Input()
+    set jhiTableheader(opt :{view :ViewContainerRef, entidade: string}) {
+        if (isNullOrUndefined(opt.view))
+            return;
+        opt.view.clear();
+        const ref = opt.view.createComponent(this.factory);
+        this.tableHeaderInstance = ref.instance;
+        ref.changeDetectorRef.detectChanges();
+        this.entidade = opt.entidade;
+    }
+
+
     ngAfterViewInit(): void {
         const thread :Element[]  = this._elementRef.nativeElement
             .getElementsByTagName("THEAD");
-
         if (thread && thread.length > 0) {
-
             const tr :NodeListOf<Element>  = thread[0].getElementsByTagName("TR");
-
             if (tr && tr.length > 0) {
                 const th :NodeListOf<Element>  = tr[0].getElementsByTagName('TH');
 
@@ -40,7 +52,6 @@ export class TableheaderDirective implements AfterViewInit{
 
                         if (el[1]) {
                             const elref = new ElementRef(el[1]);
-                            elref.nativeElement.style.backgroundColor = 'red';
                             const coluna :string =  elref.nativeElement.innerText
 
                             this.colunas.push(coluna);
@@ -57,8 +68,8 @@ export class TableheaderDirective implements AfterViewInit{
 
                     this.importCampos();
 
-                    if (this.tableHeaderInstance) {
-                        this.tableHeaderInstance.createSwitches(this.colunas, this.colunasRef);
+                    if (! isNullOrUndefined(this.tableHeaderInstance)) {
+                        this.tableHeaderInstance.createSwitches(this.entidade, this.colunas, this.colunasRef);
                     }
 
                 }
@@ -68,7 +79,6 @@ export class TableheaderDirective implements AfterViewInit{
 
 
     private importCampos() {
-
         const trs :NodeListOf<Element>  =
             this._elementRef
             .nativeElement.getElementsByTagName("TR");
@@ -84,14 +94,6 @@ export class TableheaderDirective implements AfterViewInit{
                 }
             }
         }
-
-    }
-
-    @Input()
-    set jhiTableheader(tabela :ViewContainerRef) {
-        const ref = tabela.createComponent(this.factory);
-        this.tableHeaderInstance = ref.instance;
-        ref.changeDetectorRef.detectChanges();
     }
 
     constructor(
