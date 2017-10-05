@@ -16,6 +16,7 @@ import {
     HasAnyAuthorityDirective,
     JhiLoginModalComponent
 } from './';
+import {TableheaderDirective} from "./utils/tableheader.directive";
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        TableheaderDirective
     ],
     providers: [
         LoginService,
@@ -43,6 +45,7 @@ import {
         ERestauranteSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        TableheaderDirective,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

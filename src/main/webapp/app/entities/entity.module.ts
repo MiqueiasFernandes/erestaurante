@@ -13,6 +13,7 @@ import { ERestauranteImpostoModule } from './imposto/imposto.module';
 import { ERestauranteLancamentoModule } from './lancamento/lancamento.module';
 import { ERestauranteNotaModule } from './nota/nota.module';
 import { ERestauranteRestauranteModule } from './restaurante/restaurante.module';
+
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({

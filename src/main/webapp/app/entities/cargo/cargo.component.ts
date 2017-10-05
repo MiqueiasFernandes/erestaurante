@@ -7,6 +7,7 @@ import { Cargo } from './cargo.model';
 import { CargoService } from './cargo.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import {Preferencia} from "../preferencia";
 
 @Component({
     selector: 'jhi-cargo',
@@ -16,6 +17,7 @@ export class CargoComponent implements OnInit, OnDestroy {
 cargos: Cargo[];
     currentAccount: any;
     eventSubscriber: Subscription;
+    preferencia: Preferencia;
 
     constructor(
         private cargoService: CargoService,

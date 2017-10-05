@@ -5,13 +5,16 @@ import { SERVER_API_URL } from '../../app.constants';
 
 import { Cargo } from './cargo.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
+import {ColaboradorService} from "../colaborador/colaborador.service";
+import {Colaborador} from "../colaborador/colaborador.model";
 
 @Injectable()
 export class CargoService {
 
     private resourceUrl = SERVER_API_URL + 'api/cargos';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private colaboradorService: ColaboradorService) { }
 
     create(cargo: Cargo): Observable<Cargo> {
         const copy = this.convert(cargo);
@@ -70,4 +73,28 @@ export class CargoService {
         const copy: Cargo = Object.assign({}, cargo);
         return copy;
     }
+
+
+    public getCurrentAutorithies(): Observable<string[]> {
+        return this.colaboradorService.getCurrentColaborador()
+            .map((colaborador: Colaborador) => {
+
+           const privilegios :string[] = [];
+
+           colaborador.cargos.forEach( (cargo :Cargo) => {
+
+              const per :string=  cargo.permissao;
+               if (per != null && per.length > 0) {
+                   per.split(',').forEach( (priv :string) => {
+                       if (privilegios.indexOf(priv) < 0) {
+                           privilegios.push(priv);
+                       }
+                   })
+               }
+           });
+            return privilegios;
+            });
+    }
+
+
 }

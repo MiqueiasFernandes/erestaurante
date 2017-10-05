@@ -12,25 +12,30 @@
     <div class="row">
     </div>
     <br/>
+
+    <div #tableH>
+    </div>
+
+
     <div class="table-responsive" *ngIf="produtos">
-        <table class="table table-striped">
+        <table class="table table-striped" [jhiTableheader]="tableHeader">
             <thead>
             <tr>
-            <th><span jhiTranslate="global.field.id">ID</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.codigo">Codigo</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.nome">Nome</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.fornecedor">Fornecedor</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.estoque">Estoque</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.valor">Valor</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.preco">Preco</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.foto">Foto</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.descricao">Descricao</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.observacao">Observacao</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.opcional">Opcional</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.adicional">Adicional</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.unidade">Unidade</span></th>
-            <th><span jhiTranslate="eRestauranteApp.produto.imposto">Imposto</span></th>
-            <th></th>
+                <th><span jhiTranslate="global.field.id">ID</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.codigo">Codigo</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.nome">Nome</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.fornecedor">Fornecedor</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.estoque">Estoque</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.valor">Valor</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.preco">Preco</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.foto">Foto</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.descricao">Descricao</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.observacao">Observacao</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.opcional">Opcional</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.adicional">Adicional</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.unidade">Unidade</span></th>
+                <th><span jhiTranslate="eRestauranteApp.produto.imposto">Imposto</span></th>
+                <th><span><span>Ações</span></span></th>
             </tr>
             </thead>
             <tbody>
@@ -86,4 +91,7 @@
             </tbody>
         </table>
     </div>
+
+
+
 </div>

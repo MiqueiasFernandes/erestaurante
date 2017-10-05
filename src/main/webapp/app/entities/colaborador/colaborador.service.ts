@@ -7,18 +7,27 @@ import { JhiDateUtils } from 'ng-jhipster';
 
 import { Colaborador } from './colaborador.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Injectable()
 export class ColaboradorService {
 
     private resourceUrl = SERVER_API_URL + 'api/colaboradors';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils,
+                private eventManager: JhiEventManager,) { }
 
     create(colaborador: Colaborador): Observable<Colaborador> {
         const copy = this.convert(colaborador);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
+
+            this.eventManager.broadcast({
+                name: 'colaborador',
+                content: 'create'
+            });
+
+
             return this.convertItemFromServer(jsonResponse);
         });
     }
@@ -27,6 +36,12 @@ export class ColaboradorService {
         const copy = this.convert(colaborador);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
+
+            this.eventManager.broadcast({
+                name: 'colaborador',
+                content: 'update'
+            });
+
             return this.convertItemFromServer(jsonResponse);
         });
     }
@@ -45,7 +60,15 @@ export class ColaboradorService {
     }
 
     delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
+        return this.http
+            .delete(`${this.resourceUrl}/${id}`)
+            .map( res => {
+                this.eventManager.broadcast({
+                    name: 'colaborador',
+                    content: 'delete'
+                });
+                return res;
+            });
     }
 
     private convertResponse(res: Response): ResponseWrapper {
@@ -76,4 +99,23 @@ export class ColaboradorService {
         copy.nascimento = this.dateUtils.toDate(colaborador.nascimento);
         return copy;
     }
+
+    public getCurrentColaborador():  Observable<Colaborador> {
+        return this.query().map(
+            (res: ResponseWrapper) => {
+                let c: Colaborador;
+                const cs: Colaborador[] = res.json;
+                if (cs.length < 2){
+                    c = cs[0];
+                } else {
+                    c = cs.find(col  => col.id < 0);
+                }
+
+                return c;
+            }
+        )
+    }
+
+
+
 }

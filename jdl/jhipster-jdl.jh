@@ -18,12 +18,12 @@ entity Produto {
 }
 
 enum Unidade {
-  METRO, 
-  METRO_QUADRADO, 
-  METRO_CUBICO, 
-  KILOGRAMA, 
-  TONELADA, 
-  LITRO, 
+  METRO,
+  METRO_QUADRADO,
+  METRO_CUBICO,
+  KILOGRAMA,
+  TONELADA,
+  LITRO,
   UNIDADE,
   DEZENA,
   DUZIA,
@@ -73,9 +73,9 @@ entity Comanda {
 }
 
 enum Status {
-  VAZIA, 
-  ABERTA, 
-  FECHADA, 
+  VAZIA,
+  ABERTA,
+  FECHADA,
   PAGA
 }
 
@@ -87,7 +87,7 @@ entity Colaborador {
   telefone String,
   email String,
   horario String,
-  preferencia String
+  preferencia TextBlob
 }
 
 entity Cargo {
@@ -131,10 +131,10 @@ entity Lancamento {
 }
 
 enum Natureza {
-  A_VISTA_DINHEIRO, 
-  A_PRAZO_DINHEIRO, 
-  A_VISTA_CARTAO, 
-  A_PRAZO_CARTAO, 
+  A_VISTA_DINHEIRO,
+  A_PRAZO_DINHEIRO,
+  A_VISTA_CARTAO,
+  A_PRAZO_CARTAO,
   A_VISTA_CHEQUE,
   A_PRAZO_CHEQUE
 }
@@ -203,7 +203,7 @@ relationship OneToMany {
 }
 
 relationship ManyToOne {
-  Nota{imposto} to Imposto, 
+  Nota{imposto} to Imposto,
   Comanda{pagador required} to Cliente,
   Produto{imposto} to Imposto,
   Venda{produto required} to Produto,

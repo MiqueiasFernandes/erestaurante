@@ -24,6 +24,8 @@ import {
     ActiveMenuDirective,
     ErrorComponent
 } from './layouts';
+import { TableheaderComponent } from './layouts/tableheader/tableheader.component';
+
 
 @NgModule({
     imports: [
@@ -43,13 +45,17 @@ import {
         ErrorComponent,
         PageRibbonComponent,
         ActiveMenuDirective,
-        FooterComponent
+        FooterComponent,
+        TableheaderComponent,
     ],
     providers: [
         ProfileService,
         customHttpProvider(),
         PaginationConfig,
         UserRouteAccessService
+    ],
+    entryComponents: [
+        TableheaderComponent,
     ],
     bootstrap: [ JhiMainComponent ]
 })

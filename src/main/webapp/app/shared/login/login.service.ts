@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { JhiLanguageService } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Principal } from '../auth/principal.service';
 import { AuthServerProvider } from '../auth/auth-oauth2.service';
@@ -9,6 +10,7 @@ import { JhiTrackerService } from '../tracker/tracker.service';
 export class LoginService {
 
     constructor(
+        private eventManager: JhiEventManager,
         private languageService: JhiLanguageService,
         private principal: Principal,
         private trackerService: JhiTrackerService,
@@ -40,7 +42,14 @@ export class LoginService {
 
     logout() {
         if (this.principal.isAuthenticated()) {
-            this.authServerProvider.logout().subscribe();
+            this.authServerProvider.logout().subscribe(
+                () => {
+                    this.eventManager.broadcast({
+                        name: 'logout',
+                        content: 'logout'
+                    });
+                }
+            );
         }
         this.principal.authenticate(null);
     }

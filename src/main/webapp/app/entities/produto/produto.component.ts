@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
@@ -10,12 +10,18 @@ import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'jhi-produto',
-    templateUrl: './produto.component.html'
+    templateUrl: './produto.component.html',
+    styleUrls: ['./produto.component.scss']
 })
 export class ProdutoComponent implements OnInit, OnDestroy {
-produtos: Produto[];
+
+
+    @ViewChild('tableH', {read: ViewContainerRef}) tableHeader;
+
+    produtos: Produto[];
     currentAccount: any;
     eventSubscriber: Subscription;
+    checksHeader :boolean[] = [];
 
     constructor(
         private produtoService: ProdutoService,
@@ -24,6 +30,20 @@ produtos: Produto[];
         private eventManager: JhiEventManager,
         private principal: Principal
     ) {
+        this.checksHeader["id"] = false;
+        this.checksHeader["codigo"] = false;
+        this.checksHeader["nome"] = false;
+        this.checksHeader["fornecedor"] = false;
+        this.checksHeader["estoque"] = false;
+        this.checksHeader["valor"] = false;
+        this.checksHeader["preco"] = false;
+        this.checksHeader["foto"] = false;
+        this.checksHeader["descricao"] = false;
+        this.checksHeader["observacao"] = false;
+        this.checksHeader["opcional"] = false;
+        this.checksHeader["adicional"] = false;
+        this.checksHeader["unidade"] = false;
+        this.checksHeader["imposto"] = false;
     }
 
     loadAll() {

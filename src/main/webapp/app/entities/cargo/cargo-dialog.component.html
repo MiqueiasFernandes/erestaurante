@@ -28,9 +28,20 @@
                 [(ngModel)]="cargo.comissao"  />
         </div>
         <div class="form-group">
-            <label class="form-control-label" jhiTranslate="eRestauranteApp.cargo.permissao" for="field_permissao">Permissao</label>
-            <textarea class="form-control" name="permissao" id="field_permissao"
-                [(ngModel)]="cargo.permissao"  ></textarea>
+            <label>Permissões</label>
+            <!--<label class="form-control-label" jhiTranslate="eRestauranteApp.cargo.permissao" for="field_permissao">Permissao</label>-->
+            <!--<textarea class="form-control" name="permissao" id="field_permissao"-->
+                <!--[(ngModel)]="cargo.permissao"  ></textarea>-->
+
+            <ul *ngFor="let entidade of entidades">
+               {{entidade}}:
+               <li *ngFor="let nivel of niveis">
+                   <label class="form-control-label"  [for]="entidade + '_' + nivel">{{nivel}}</label>
+                   <input #vari type="checkbox" class="form-control" [id]="entidade + '_' + nivel"
+                          (change)="setCheck(vari.checked, entidade, nivel)" [checked]="checks[entidade][nivel]" />
+               </li>
+            </ul>
+
         </div>
 
     </div>

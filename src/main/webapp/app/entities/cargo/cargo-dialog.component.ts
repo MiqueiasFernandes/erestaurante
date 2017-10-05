@@ -19,6 +19,33 @@ export class CargoDialogComponent implements OnInit {
     cargo: Cargo;
     isSaving: boolean;
 
+    entidades: string[] = [
+        "cardapio",
+        "cargo",
+        "cliente",
+        "colaborador",
+        "comanda",
+        "endereco",
+        "imposto",
+        "lancamento",
+        "mesa",
+        "nota",
+        "produto",
+        "restaurante",
+        "venda"
+    ];
+
+    niveis: string[] = [
+        "visualizar",
+        "adicionar",
+        "editar",
+        "excluir"
+    ];
+
+    checks: boolean[][] = [];
+
+
+
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
@@ -26,10 +53,28 @@ export class CargoDialogComponent implements OnInit {
         private cargoService: CargoService,
         private eventManager: JhiEventManager
     ) {
+        this.entidades.forEach((ent :string) => {
+
+            const bols:boolean[] = [];
+
+            bols["visualizar"] = false;
+            bols["adicionar"] = false;
+            bols["editar"] = false;
+            bols["excluir"] = false;
+
+            this.checks[ent] = bols;
+        })
     }
 
     ngOnInit() {
         this.isSaving = false;
+
+        this.cargo.permissao.split(',').forEach((privilegio: string) => {
+            const data: string[] = privilegio.split("_");
+            this.checks[data[0]][data[1]] = true;
+        })
+
+
     }
 
     byteSize(field) {
@@ -50,6 +95,20 @@ export class CargoDialogComponent implements OnInit {
 
     save() {
         this.isSaving = true;
+
+       let priv = "";
+
+        this.entidades.forEach((ent :string) => {
+            this.niveis.forEach((nv: string) => {
+                if (this.checks[ent][nv]) {
+                    priv += ent + "_" + nv + ",";
+                }
+            });
+        });
+
+
+        this.cargo.permissao = priv;
+
         if (this.cargo.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.cargoService.update(this.cargo));
@@ -76,6 +135,10 @@ export class CargoDialogComponent implements OnInit {
 
     private onError(error: any) {
         this.jhiAlertService.error(error.message, null, null);
+    }
+
+    setCheck(checked: boolean, entidade: string, nivel: string) {
+        this.checks[entidade][nivel] = checked;
     }
 }
 
