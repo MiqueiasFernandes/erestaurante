@@ -23,7 +23,9 @@ export class ProdutoComponent implements OnInit, OnDestroy {
     private produtos: Produto[];
     private currentAccount: any;
     private eventSubscriber: Subscription;
-    private checksHeader :boolean[] = [];
+    // private checksHeader :boolean[] = [];
+    private hides :boolean[] = [];
+    private modoProd :boolean[] = [];
 
     constructor(
         private produtoService: ProdutoService,
@@ -33,32 +35,35 @@ export class ProdutoComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private preferenciaService :PreferenciasService
     ) {
-        this.checksHeader["id"] = false;
-        this.checksHeader["codigo"] = false;
-        this.checksHeader["nome"] = false;
-        this.checksHeader["fornecedor"] = false;
-        this.checksHeader["estoque"] = false;
-        this.checksHeader["valor"] = false;
-        this.checksHeader["preco"] = false;
-        this.checksHeader["foto"] = false;
-        this.checksHeader["descricao"] = false;
-        this.checksHeader["observacao"] = false;
-        this.checksHeader["opcional"] = false;
-        this.checksHeader["adicional"] = false;
-        this.checksHeader["unidade"] = false;
-        this.checksHeader["imposto"] = false;
+        // this.checksHeader["id"] = false;
+        // this.checksHeader["codigo"] = false;
+        // this.checksHeader["nome"] = false;
+        // this.checksHeader["fornecedor"] = false;
+        // this.checksHeader["estoque"] = false;
+        // this.checksHeader["valor"] = false;
+        // this.checksHeader["preco"] = false;
+        // this.checksHeader["foto"] = false;
+        // this.checksHeader["descricao"] = false;
+        // this.checksHeader["observacao"] = false;
+        // this.checksHeader["opcional"] = false;
+        // this.checksHeader["adicional"] = false;
+        // this.checksHeader["unidade"] = false;
+        // this.checksHeader["imposto"] = false;
     }
 
     loadAll() {
         this.produtoService.query().subscribe(
             (res: ResponseWrapper) => {
                 this.produtos = res.json;
+                this.produtos.forEach((p) => this.modoProd[p.id] = this.hides[p.id] = true);
+                this.updateView();
             },
             (res: ResponseWrapper) => this.onError(res.json)
         );
         this.preferenciaService.getPref('pt').subscribe(
             (pref :string) => this.modoTabela = (!isNullOrUndefined(pref) && pref.endsWith('T'))
         );
+
     }
     ngOnInit() {
         this.loadAll();
@@ -94,8 +99,31 @@ export class ProdutoComponent implements OnInit, OnDestroy {
     setModoTabela() {
         this.modoTabela = !this.modoTabela;
         this.preferenciaService.setPreferencia('pt', (this.modoTabela ? 'T' : 'F'));
-        if (!this.modoTabela && !isNullOrUndefined(this.tableHeader)) {
-            this.tableHeader.clear();
+        if (!this.modoTabela) {
+            if (!isNullOrUndefined(this.tableHeader)) {
+                this.tableHeader.clear();
+            }
+            this.updateView();
         }
+    }
+
+    private updateView() {
+        this.produtos.forEach((p) => {
+            this.preferenciaService.isProdutoVisivel(p.id).subscribe(
+                (ref :any) => {
+                    this.hides[ref.id] = ref.visivel;
+                    console.log(ref);
+                }
+            );
+        });
+    }
+
+    hideProduto(produto: Produto, hide :boolean) {
+        this.preferenciaService.storeProdPref(produto.id, hide);
+        this.hides[produto.id] = hide;
+    }
+
+    salvarProduto(produto :Produto) {
+        this.produtoService.update(produto).subscribe();
     }
 }

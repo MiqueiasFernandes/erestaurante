@@ -33,14 +33,58 @@
             <!--<textarea class="form-control" name="permissao" id="field_permissao"-->
                 <!--[(ngModel)]="cargo.permissao"  ></textarea>-->
 
-            <ul *ngFor="let entidade of entidades">
-               {{entidade}}:
-               <li *ngFor="let nivel of niveis">
-                   <label class="form-control-label"  [for]="entidade + '_' + nivel">{{nivel}}</label>
-                   <input #vari type="checkbox" class="form-control" [id]="entidade + '_' + nivel"
-                          (change)="setCheck(vari.checked, entidade, nivel)" [checked]="checks[entidade][nivel]" />
-               </li>
-            </ul>
+            <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <th>
+                    Entidade
+                </th>
+                <th>
+                    visualizar
+                </th>
+                <th>
+                    Adicionar
+                </th>
+                <th>
+                    Editar
+                </th>
+                <th>
+                    Deletar
+                </th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let entidade of entidades">
+                    <td>{{entidade}}</td>
+                    <td>
+                        <input #vari1 type="checkbox" class="form-control"
+                               (change)="setCheck(vari1.checked, entidade, 'visualizar')" [checked]="checks[entidade]['visualizar']" />
+                    </td>
+                    <td>
+                        <input #vari2 type="checkbox" class="form-control"
+                               (change)="setCheck(vari2.checked, entidade, 'adicionar')" [checked]="checks[entidade]['adicionar']" />
+                    </td>
+                    <td>
+                        <input #vari3 type="checkbox" class="form-control"
+                               (change)="setCheck(vari3.checked, entidade, 'editar')" [checked]="checks[entidade]['editar']" />
+                    </td>
+                    <td>
+                        <input #vari4 type="checkbox" class="form-control"
+                               (change)="setCheck(vari4.checked, entidade, 'deletar')" [checked]="checks[entidade]['deletar']" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+
+
+            <!--<ul *ngFor="let entidade of entidades">-->
+               <!--{{entidade}}:-->
+               <!--<li *ngFor="let nivel of niveis">-->
+                   <!--<label class="form-control-label"  [for]="entidade + '_' + nivel">{{nivel}}</label>-->
+                   <!--<input #vari type="checkbox" class="form-control" [id]="entidade + '_' + nivel"-->
+                          <!--(change)="setCheck(vari.checked, entidade, nivel)" [checked]="checks[entidade][nivel]" />-->
+               <!--</li>-->
+            <!--</ul>-->
 
         </div>
 

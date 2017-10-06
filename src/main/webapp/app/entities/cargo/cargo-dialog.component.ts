@@ -9,6 +9,7 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { Cargo } from './cargo.model';
 import { CargoPopupService } from './cargo-popup.service';
 import { CargoService } from './cargo.service';
+import {isNullOrUndefined} from "util";
 
 @Component({
     selector: 'jhi-cargo-dialog',
@@ -39,7 +40,7 @@ export class CargoDialogComponent implements OnInit {
         "visualizar",
         "adicionar",
         "editar",
-        "excluir"
+        "deletar"
     ];
 
     checks: boolean[][] = [];
@@ -60,7 +61,7 @@ export class CargoDialogComponent implements OnInit {
             bols["visualizar"] = false;
             bols["adicionar"] = false;
             bols["editar"] = false;
-            bols["excluir"] = false;
+            bols["deletar"] = false;
 
             this.checks[ent] = bols;
         })
@@ -71,10 +72,10 @@ export class CargoDialogComponent implements OnInit {
 
         this.cargo.permissao.split(',').forEach((privilegio: string) => {
             const data: string[] = privilegio.split("_");
-            this.checks[data[0]][data[1]] = true;
-        })
-
-
+            if (!isNullOrUndefined(data) && data.length === 2) {
+                this.checks[data[0]][data[1]] = true;
+            }
+        });
     }
 
     byteSize(field) {
@@ -96,7 +97,7 @@ export class CargoDialogComponent implements OnInit {
     save() {
         this.isSaving = true;
 
-       let priv = "";
+        let priv = "";
 
         this.entidades.forEach((ent :string) => {
             this.niveis.forEach((nv: string) => {
@@ -139,6 +140,8 @@ export class CargoDialogComponent implements OnInit {
 
     setCheck(checked: boolean, entidade: string, nivel: string) {
         this.checks[entidade][nivel] = checked;
+        console.log(checked + entidade + nivel);
+        console.log(this.checks);
     }
 }
 

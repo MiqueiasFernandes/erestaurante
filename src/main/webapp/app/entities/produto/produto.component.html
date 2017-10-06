@@ -19,41 +19,62 @@
     </div>
     <br/>
 
+
     <div *ngSwitchCase="false" class="row">
 
-        <div *ngFor="let produto of produtos" class="card produto">
+        <div *ngFor="let produto of produtos">
 
-            <div class="card-header">
-                {{produto.codigo}}
-            </div>
+            <div class="card produto" *ngIf="hides[produto.id]">
 
-           <div class="card-body" [innerHtml]="produto.descricao"></div>
-
-            <div class="card-footer">
-                <div class="btn-group flex-btn-group-container">
-                    <button type="submit"
-                            [routerLink]="['../produto', produto.id ]"
-                            class="btn btn-info btn-sm">
-                        <span class="fa fa-eye"></span>
-                        <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                <div class="card-header">
+                    {{produto.codigo}}
+                    <button class="btn btn-success btn-sm float-right" (click)="modoProd[produto.id] = !modoProd[produto.id]">
+                        <i [ngClass]="{
+                         'fa' : true,
+                         'fa-code': modoProd[produto.id],
+                         'fa-edit': !modoProd[produto.id]
+                         }" aria-hidden="true" aria-hidden="true"></i>
                     </button>
-                    <button type="submit"
-                            [routerLink]="['/', { outlets: { popup: 'produto/'+ produto.id + '/edit'} }]"
-                            replaceUrl="true"
-                            class="btn btn-primary btn-sm">
-                        <span class="fa fa-pencil"></span>
-                        <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                    </button>
-                    <button type="submit"
-                            [routerLink]="['/', { outlets: { popup: 'produto/'+ produto.id + '/delete'} }]"
-                            replaceUrl="true"
-                            class="btn btn-danger btn-sm">
-                        <span class="fa fa-remove"></span>
-                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                    <button class="btn btn-success btn-sm float-right" (click)="hideProduto(produto, false)" style="margin-right: 5px">
+                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
                     </button>
                 </div>
-            </div>
 
+                <div class="card-body" >
+                    <textarea [(ngModel)]="produto.descricao" *ngIf="modoProd[produto.id] === false" class="editor"></textarea>
+                    <quill-editor [(ngModel)]="produto.descricao" *ngIf="modoProd[produto.id] === true"></quill-editor>
+                </div>
+
+                <div class="card-footer">
+                    <div class="btn-group flex-btn-group-container">
+                        <button (click)="salvarProduto(produto)"
+                                class="btn btn-secondary btn-sm">
+                            <span class="fa fa-save"></span>
+                            Salvar
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['../produto', produto.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'produto/'+ produto.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'produto/'+ produto.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -111,9 +132,13 @@
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
-                            <button type="submit"
-                                    [routerLink]="['../produto', produto.id ]"
-                                    class="btn btn-info btn-sm">
+                            <!--<button type="submit"-->
+                            <!--[routerLink]="['../produto', produto.id ]"-->
+                            <!--class="btn btn-info btn-sm">-->
+                            <!--<span class="fa fa-eye"></span>-->
+                            <!--<span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>-->
+                            <!--</button>-->
+                            <button class="btn btn-info btn-sm" (click)="hideProduto(produto, true)">
                                 <span class="fa fa-eye"></span>
                                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                             </button>

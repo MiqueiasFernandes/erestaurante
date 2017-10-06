@@ -19,7 +19,7 @@
                 </a>
             </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <li *ngSwitchCase="true" [ngClass]="{'oculto' : (permissoes.length < 1)}" ngbDropdown class="nav-item dropdown pointer" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="entity-menu">
                     <span>
                         <i class="fa fa-th-list" aria-hidden="true"></i>
@@ -29,79 +29,79 @@
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
-                    <li>
+                    <li *ngIf="permissoes['produto']">
                         <a class="dropdown-item" routerLink="produto" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.produto">Produto</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['endereco']">
                         <a class="dropdown-item" routerLink="endereco" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.endereco">Endereco</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['cliente']">
                         <a class="dropdown-item" routerLink="cliente" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.cliente">Cliente</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['mesa']">
                         <a class="dropdown-item" routerLink="mesa" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.mesa">Mesa</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['venda']">
                         <a class="dropdown-item" routerLink="venda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.venda">Venda</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['comanda']">
                         <a class="dropdown-item" routerLink="comanda" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.comanda">Comanda</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['colaborador']">
                         <a class="dropdown-item" routerLink="colaborador" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.colaborador">Colaborador</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['cargo']">
                         <a class="dropdown-item" routerLink="cargo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.cargo">Cargo</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['cardapio']">
                         <a class="dropdown-item" routerLink="cardapio" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.cardapio">Cardapio</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['imposto']">
                         <a class="dropdown-item" routerLink="imposto" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.imposto">Imposto</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['lancamento']">
                         <a class="dropdown-item" routerLink="lancamento" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.lancamento">Lancamento</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['nota']">
                         <a class="dropdown-item" routerLink="nota" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.nota">Nota</span>
                         </a>
                     </li>
-                    <li>
+                    <li *ngIf="permissoes['restaurante']">
                         <a class="dropdown-item" routerLink="restaurante" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span jhiTranslate="global.menu.entities.restaurante">Restaurante</span>

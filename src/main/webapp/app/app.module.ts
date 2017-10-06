@@ -28,7 +28,6 @@ import { TableheaderComponent } from './layouts/tableheader/tableheader.componen
 import {PreferenciasService} from "./entities/preferencias.service";
 import {PrivilegiosService} from "./entities/privilegios.service";
 
-
 @NgModule({
     imports: [
         BrowserModule,

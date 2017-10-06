@@ -112,13 +112,11 @@ export class ColaboradorService {
                     c = cs[0];
                 } else {
                     c = cs.find(col  => col.id < 0);
+                    c.id = cs.find( col => col.usuario.id === c.usuario.id ).id;
                 }
-
                 return c;
             }
         )
     }
-
-
 
 }

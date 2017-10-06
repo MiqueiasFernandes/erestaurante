@@ -7,6 +7,7 @@ import { ProfileService } from '../profiles/profile.service';
 import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION, DEBUG_INFO_ENABLED } from '../../app.constants';
+import {PrivilegiosService} from "../../entities/privilegios.service";
 
 @Component({
     selector: 'jhi-navbar',
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     swaggerEnabled: boolean;
     modalRef: NgbModalRef;
     version: string;
+    permissoes :string[] = [];
 
     constructor(
         private loginService: LoginService,
@@ -31,7 +33,8 @@ export class NavbarComponent implements OnInit {
         private principal: Principal,
         private loginModalService: LoginModalService,
         private profileService: ProfileService,
-        private router: Router
+        private router: Router,
+        private privilegios :PrivilegiosService
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
@@ -46,6 +49,17 @@ export class NavbarComponent implements OnInit {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
+
+        this.privilegios.hasPermissao('produto', 'view', true).subscribe(
+            (res :{has :boolean, privs :string[][]}) => {
+                Object.keys(res.privs).forEach(k => {
+                    if (res.privs[k].length > 0) {
+                        this.permissoes.push(k);
+                        this.permissoes[k] = true;
+                    }
+                });
+            }
+        );
     }
 
     changeLanguage(languageKey: string) {

@@ -7,6 +7,7 @@ import { Cargo } from './cargo.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 import {ColaboradorService} from "../colaborador/colaborador.service";
 import {Colaborador} from "../colaborador/colaborador.model";
+import { JhiEventManager } from 'ng-jhipster';
 
 @Injectable()
 export class CargoService {
@@ -14,12 +15,19 @@ export class CargoService {
     private resourceUrl = SERVER_API_URL + 'api/cargos';
 
     constructor(private http: Http,
+                private eventManager: JhiEventManager,
                 private colaboradorService: ColaboradorService) { }
 
     create(cargo: Cargo): Observable<Cargo> {
         const copy = this.convert(cargo);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
+
+            this.eventManager.broadcast({
+                name: 'cargo',
+                content: 'create'
+            });
+
             return this.convertItemFromServer(jsonResponse);
         });
     }
@@ -28,6 +36,12 @@ export class CargoService {
         const copy = this.convert(cargo);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
+
+            this.eventManager.broadcast({
+                name: 'cargo',
+                content: 'update'
+            });
+
             return this.convertItemFromServer(jsonResponse);
         });
     }
@@ -46,7 +60,17 @@ export class CargoService {
     }
 
     delete(id: number): Observable<Response> {
-        return this.http.delete(`${this.resourceUrl}/${id}`);
+
+        return this.http.delete(`${this.resourceUrl}/${id}`)
+            .map(res => {
+
+                this.eventManager.broadcast({
+                    name: 'cargo',
+                    content: 'delete'
+                });
+
+                return res;
+            });
     }
 
     private convertResponse(res: Response): ResponseWrapper {
@@ -79,20 +103,20 @@ export class CargoService {
         return this.colaboradorService.getCurrentColaborador()
             .map((colaborador: Colaborador) => {
 
-           const privilegios :string[] = [];
+                const privilegios :string[] = [];
 
-           colaborador.cargos.forEach( (cargo :Cargo) => {
+                colaborador.cargos.forEach( (cargo :Cargo) => {
 
-              const per :string=  cargo.permissao;
-               if (per != null && per.length > 0) {
-                   per.split(',').forEach( (priv :string) => {
-                       if (privilegios.indexOf(priv) < 0) {
-                           privilegios.push(priv);
-                       }
-                   })
-               }
-           });
-            return privilegios;
+                    const per :string=  cargo.permissao;
+                    if (per != null && per.length > 0) {
+                        per.split(',').forEach( (priv :string) => {
+                            if (privilegios.indexOf(priv) < 0) {
+                                privilegios.push(priv);
+                            }
+                        })
+                    }
+                });
+                return privilegios;
             });
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, OnDestroy, ViewChild, ViewContainerRef} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
@@ -17,6 +17,7 @@ export class CargoComponent implements OnInit, OnDestroy {
 cargos: Cargo[];
     currentAccount: any;
     eventSubscriber: Subscription;
+    @ViewChild('tableH', {read: ViewContainerRef}) tableHeader;
 
     constructor(
         private cargoService: CargoService,
