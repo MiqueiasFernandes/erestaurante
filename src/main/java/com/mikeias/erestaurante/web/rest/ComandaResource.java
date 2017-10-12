@@ -3,6 +3,7 @@ package com.mikeias.erestaurante.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mikeias.erestaurante.domain.Comanda;
 
+import com.mikeias.erestaurante.domain.Mesa;
 import com.mikeias.erestaurante.domain.enumeration.Status;
 import com.mikeias.erestaurante.repository.ComandaRepository;
 import com.mikeias.erestaurante.web.rest.util.HeaderUtil;
@@ -117,9 +118,19 @@ public class ComandaResource {
         List<Comanda>  comandas = comandaRepository.findAllWithEagerRelationships();
 
         Comanda d = null;
+
         for (Comanda c : comandas) {
-            if (c.getId() == id && (c.getStatus() == Status.ABERTA ||c.getStatus() == Status.VAZIA) )
-               d = c;
+
+            for (Mesa m : c.getMesas()) {
+                if (m.getId().equals(id) && (c.getStatus() == Status.ABERTA ||c.getStatus() == Status.VAZIA) ) {
+                    d = c;
+                    break;
+                }
+            }
+
+            if (d != null) {
+                break;
+            }
         }
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(d));

@@ -72,34 +72,40 @@ export class NavbarComponent implements OnInit {
 
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.atualizar();
-            this.autoLogin = (!isNullOrUndefined(message) && message.startsWith('autologin'));
         });
 
         this.eventManager.subscribe('autologin', (message) => {
-            this.atualizar();
             this.autoLogin = message && message.content && message.content.startsWith('true');
+            this.atualizar();
         });
 
         this.autoLoginService.isAutoLogin().then((is) => {this.autoLogin = is});
 
-        this.atualizar();
+        this.variaveis.mesaComandaObserver$.subscribe(
+            (mesaEcomanda :{mesa :Mesa, comanda :Comanda}) => {
+            this.mesa = mesaEcomanda.mesa;
+            this.comanda = mesaEcomanda.comanda;
+        });
 
-        this.variaveis.getComanda().subscribe( (comanda) => this.comanda = comanda);
-        this.variaveis.getMesa().subscribe( (mesa) => this.mesa = mesa);
-        this.variaveis.sendMesaAndComanda();
+        this.atualizar();
     }
 
     atualizar() {
-        this.privilegios.hasPermissao('produto', 'view', true).subscribe(
-            (res :{has :boolean, privs :string[][]}) => {
-                Object.keys(res.privs).forEach(k => {
-                    if (res.privs[k].length > 0) {
-                        this.permissoes.push(k);
-                        this.permissoes[k] = true;
-                    }
-                });
-            }
-        );
+
+        if (this.isAuthenticated()) {
+            this.privilegios.hasPermissao('produto', 'view', true).subscribe(
+                (res: { has: boolean, privs: string[][] }) => {
+                    Object.keys(res.privs).forEach(k => {
+                        if (res.privs[k].length > 0) {
+                            this.permissoes.push(k);
+                            this.permissoes[k] = true;
+                        }
+                    });
+                }
+            );
+        }
+
+        this.variaveis.update();
     }
 
     changeLanguage(languageKey: string) {
@@ -151,9 +157,15 @@ export class NavbarComponent implements OnInit {
         return '';
     }
 
+    updateComanda() {
+        this.variaveis.update();
+    }
+
     setMesa() {
         if (!this.variaveis.hasMesa()) {
             this.open();
+        } else {
+            this.variaveis.update();
         }
     }
 

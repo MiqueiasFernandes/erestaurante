@@ -41,7 +41,6 @@ export class HomeComponent implements OnInit {
         this.dias.push( 'Quinta');
         this.dias.push('Sexta');
         this.dias.push('Sábado');
-        this.montaCardapio(new Date().getDay());
     }
 
     ngOnInit() {
@@ -58,11 +57,13 @@ export class HomeComponent implements OnInit {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;
+                this.montaCardapio(new Date().getDay());
             });
         });
 
         this.eventManager.subscribe('autologin', (message) => {
             this.modoCardapio = message && message.content && message.content.startsWith('true');
+            this.montaCardapio(new Date().getDay());
         });
 
         this.autoLoginService.isAutoLogin().then((is) => {this.modoCardapio = is});

@@ -14,10 +14,8 @@
 
             <!--itens do auto login-->
 
-
-
-            <li class="nav-item" *ngIf="autoLogin">
-                <a class="nav-link" (click)="collapseNavbar();setMesa()">
+            <li class="nav-item"*ngIf="autoLogin">
+                <a class="nav-link" routerLink="/" (click)="collapseNavbar();setMesa()">
                     <span>
                         <i class="fa fa-table" aria-hidden="true"></i>
                         Mesa {{getMesa()}}
@@ -27,7 +25,7 @@
 
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
                 *ngIf="autoLogin">
-                <a class="nav-link" routerLink="/comanda" (click)="collapseNavbar()">
+                <a class="nav-link" routerLink="/comanda" (click)="collapseNavbar();updateComanda()">
                     <span>
                         <i class="fa fa-list-ol" aria-hidden="true"></i>
                         Comanda {{getComanda()}}
