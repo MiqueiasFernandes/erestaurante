@@ -35,20 +35,6 @@ export class ProdutoComponent implements OnInit, OnDestroy {
         private principal: Principal,
         private preferenciaService :PreferenciasService
     ) {
-        // this.checksHeader["id"] = false;
-        // this.checksHeader["codigo"] = false;
-        // this.checksHeader["nome"] = false;
-        // this.checksHeader["fornecedor"] = false;
-        // this.checksHeader["estoque"] = false;
-        // this.checksHeader["valor"] = false;
-        // this.checksHeader["preco"] = false;
-        // this.checksHeader["foto"] = false;
-        // this.checksHeader["descricao"] = false;
-        // this.checksHeader["observacao"] = false;
-        // this.checksHeader["opcional"] = false;
-        // this.checksHeader["adicional"] = false;
-        // this.checksHeader["unidade"] = false;
-        // this.checksHeader["imposto"] = false;
     }
 
     loadAll() {

@@ -14,9 +14,10 @@ import {
     Principal,
     JhiTrackerService,
     HasAnyAuthorityDirective,
-    JhiLoginModalComponent
+    JhiLoginModalComponent, AutologinService
 } from './';
 import {TableheaderDirective} from "./utils/tableheader.directive";
+import {VariaveisService} from "./utils/variaveis.service";
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import {TableheaderDirective} from "./utils/tableheader.directive";
         TableheaderDirective
     ],
     providers: [
+        AutologinService,
         LoginService,
         LoginModalService,
         AccountService,
@@ -38,7 +40,8 @@ import {TableheaderDirective} from "./utils/tableheader.directive";
         JhiTrackerService,
         AuthServerProvider,
         UserService,
-        DatePipe
+        DatePipe,
+        VariaveisService
     ],
     entryComponents: [JhiLoginModalComponent],
     exports: [

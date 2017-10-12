@@ -70,4 +70,12 @@ export class CardapioService {
         const copy: Cardapio = Object.assign({}, cardapio);
         return copy;
     }
+
+
+    getCardapioOfDay(day: string) :Observable<Cardapio> {
+        return this.query().map((res: ResponseWrapper) => {
+            const cardapios :Cardapio[] = res.json;
+           return cardapios.find( c => c.periodo.indexOf(day) >= 0);
+        });
+    }
 }

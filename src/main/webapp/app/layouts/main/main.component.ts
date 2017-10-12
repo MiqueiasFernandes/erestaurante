@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 
 import { JhiLanguageHelper } from '../../shared';
+import {LoginService} from "../../shared/login/login.service";
+import {Principal} from "../../shared/auth/principal.service";
+import {AutologinService} from "../../shared/login/autologin.service";
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
     selector: 'jhi-main',
@@ -11,7 +15,10 @@ export class JhiMainComponent implements OnInit {
 
     constructor(
         private jhiLanguageHelper: JhiLanguageHelper,
-        private router: Router
+        private router: Router,
+        private loginService :AutologinService,
+        private principal :Principal,
+        private eventManager: JhiEventManager
     ) {}
 
     private getPageTitle(routeSnapshot: ActivatedRouteSnapshot) {
@@ -23,10 +30,25 @@ export class JhiMainComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.router.events.subscribe((event) => {
             if (event instanceof NavigationEnd) {
                 this.jhiLanguageHelper.updateTitle(this.getPageTitle(this.router.routerState.snapshot.root));
             }
         });
+
+        this.principal.identity().then((account) => {
+            if (!account) {
+                this.loginService.autoLogin();
+            } else {
+                this.loginService.verifyAccount(account);
+            }
+        });
+
+
+        this.eventManager.subscribe('logout', (message) => {
+            this.loginService.autoLogin();
+        });
+
     }
 }

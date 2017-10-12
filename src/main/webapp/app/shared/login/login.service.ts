@@ -40,10 +40,20 @@ export class LoginService {
         });
     }
 
-    logout() {
+    logout(nonotify? :boolean) {
         if (this.principal.isAuthenticated()) {
-            this.authServerProvider.logout().subscribe(
+            this.authServerProvider.logout()
+                .subscribe(
                 () => {
+                },
+                () => {
+                },
+                () => {
+
+                    if(nonotify) {
+                        return;
+                    }
+
                     this.eventManager.broadcast({
                         name: 'logout',
                         content: 'logout'

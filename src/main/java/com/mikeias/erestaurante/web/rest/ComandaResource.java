@@ -3,6 +3,7 @@ package com.mikeias.erestaurante.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.mikeias.erestaurante.domain.Comanda;
 
+import com.mikeias.erestaurante.domain.enumeration.Status;
 import com.mikeias.erestaurante.repository.ComandaRepository;
 import com.mikeias.erestaurante.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -101,6 +102,27 @@ public class ComandaResource {
         log.debug("REST request to get Comanda : {}", id);
         Comanda comanda = comandaRepository.findOneWithEagerRelationships(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(comanda));
+    }
+
+    /**
+     * GET  /comandas/mesa/:id : get the "id" comanda aberta ou vazia by mesa.
+     *
+     * @param id the id of the mesa to retrieve comanda
+     * @return the ResponseEntity with status 200 (OK) and with body the comanda, or with status 404 (Not Found)
+     */
+    @GetMapping("/comandas/mesa/{id}")
+    @Timed
+    public ResponseEntity<Comanda> getComandaByMesa(@PathVariable Long id) {
+        log.debug("REST request to get Comanda by Mesa: {}", id);
+        List<Comanda>  comandas = comandaRepository.findAllWithEagerRelationships();
+
+        Comanda d = null;
+        for (Comanda c : comandas) {
+            if (c.getId() == id && (c.getStatus() == Status.ABERTA ||c.getStatus() == Status.VAZIA) )
+               d = c;
+        }
+
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(d));
     }
 
     /**

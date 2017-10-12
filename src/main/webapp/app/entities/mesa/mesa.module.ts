@@ -14,6 +14,7 @@ import {
     mesaRoute,
     mesaPopupRoute,
 } from './';
+import { SelectComponent } from './select/select.component';
 
 const ENTITY_STATES = [
     ...mesaRoute,
@@ -32,6 +33,7 @@ const ENTITY_STATES = [
         MesaDeleteDialogComponent,
         MesaPopupComponent,
         MesaDeletePopupComponent,
+        SelectComponent,
     ],
     entryComponents: [
         MesaComponent,
@@ -39,6 +41,7 @@ const ENTITY_STATES = [
         MesaPopupComponent,
         MesaDeleteDialogComponent,
         MesaDeletePopupComponent,
+        SelectComponent
     ],
     providers: [
         MesaService,
