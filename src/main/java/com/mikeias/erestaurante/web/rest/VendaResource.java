@@ -87,7 +87,21 @@ public class VendaResource {
     public List<Venda> getAllVendas() {
         log.debug("REST request to get all Vendas");
         return vendaRepository.findAll();
-        }
+    }
+
+    /**
+     * GET  /vendas/comanda/:id : get all the vendas of comanda id.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of vendas in body
+     */
+    @GetMapping("/vendas/comanda/{id}")
+    @Timed
+    public List<Venda> getAllVendasByComanda(@PathVariable Long id) {
+        log.debug("REST request to get all Vendas For Comanda {}", id);
+        List<Venda> vendas = vendaRepository.findAll();
+        vendas.removeIf(venda -> ((venda.getComanda() == null) || (!venda.getComanda().getId().equals(id))));
+        return vendas;
+    }
 
     /**
      * GET  /vendas/:id : get the "id" venda.

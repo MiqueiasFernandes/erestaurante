@@ -5,6 +5,8 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Comanda } from './comanda.model';
 import { ComandaService } from './comanda.service';
+import {Venda} from "../venda/venda.model";
+import {VendaService} from "../venda/venda.service";
 
 @Component({
     selector: 'jhi-comanda-detail',
@@ -13,13 +15,15 @@ import { ComandaService } from './comanda.service';
 export class ComandaDetailComponent implements OnInit, OnDestroy {
 
     comanda: Comanda;
+    vendas: Venda[];
     private subscription: Subscription;
     private eventSubscriber: Subscription;
 
     constructor(
         private eventManager: JhiEventManager,
         private comandaService: ComandaService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private vendaService :VendaService
     ) {
     }
 
@@ -33,6 +37,7 @@ export class ComandaDetailComponent implements OnInit, OnDestroy {
     load(id) {
         this.comandaService.find(id).subscribe((comanda) => {
             this.comanda = comanda;
+            this.vendaService.getVendasForComandaId(comanda.id).subscribe(vendas => {this.vendas = vendas});
         });
     }
     previousState() {

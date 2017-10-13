@@ -25,7 +25,7 @@
 
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
                 *ngIf="autoLogin">
-                <a class="nav-link" routerLink="/comanda" (click)="collapseNavbar();updateComanda()">
+                <a class="nav-link" [routerLink]="comanda ? ['/comanda', comanda.id ] : ['/']" (click)="collapseNavbar();updateComanda()">
                     <span>
                         <i class="fa fa-list-ol" aria-hidden="true"></i>
                         Comanda {{getComanda()}}

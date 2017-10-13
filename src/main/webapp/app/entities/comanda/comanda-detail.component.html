@@ -3,6 +3,38 @@
     <h2><span jhiTranslate="eRestauranteApp.comanda.detail.title">Comanda</span> {{comanda.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
+
+
+    <div class="table-responsive" *ngIf="vendas">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th><span>Codigo</span></th>
+                <th><span>Descrição</span></th>
+                <th><span>Quantidade</span></th>
+                <th><span>Valor</span></th>
+                <th><span>Total</span></th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let venda of vendas ;trackBy: trackId">
+
+                <td>{{venda.produto.codigo}}</td>
+                <td>{{venda.produto.nome}}</td>
+                <td>{{venda.quantidade}}</td>
+                <td>{{venda.produto.preco}}</td>
+                <td>{{ (venda.produto.preco * venda.quantidade) - venda.desconto}}</td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <br/>
+
+
+
     <dl class="row-md jh-entity-details">
         <dt><span jhiTranslate="eRestauranteApp.comanda.codigo">Codigo</span></dt>
         <dd>
@@ -45,6 +77,7 @@
             </span>
         </dd>
     </dl>
+
 
     <button type="submit"
             (click)="previousState()"

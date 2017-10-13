@@ -37,10 +37,11 @@ export class ComandaService {
     }
 
     findByMesa(id: number): Observable<Comanda> {
-        return this.http.get(`${this.resourceUrl}/mesa/${id}`).map((res: Response) => {
-            const jsonResponse = res.json();
-            return this.convertItemFromServer(jsonResponse);
-        });
+        return this.http.get(`${this.resourceUrl}/mesa/${id}`)
+            .map((res: Response) => {
+                const jsonResponse = res.json();
+                return this.convertItemFromServer(jsonResponse);
+            });
     }
 
     query(req?: any): Observable<ResponseWrapper> {

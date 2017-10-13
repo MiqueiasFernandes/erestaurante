@@ -48,6 +48,12 @@ export class VendaService {
         return this.http.delete(`${this.resourceUrl}/${id}`);
     }
 
+    getVendasForComandaId(id :number): Observable<Venda[]>  {
+        return this.http.get(`${this.resourceUrl}/comanda/${id}`)
+            .map((res: Response) => this.convertResponse(res).json);
+    }
+
+
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
         const result = [];

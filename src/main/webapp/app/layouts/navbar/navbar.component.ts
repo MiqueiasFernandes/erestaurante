@@ -170,6 +170,8 @@ export class NavbarComponent implements OnInit {
     }
 
 
+
+
     open(): NgbModalRef {
         if (this.isOpen) {
             return;
