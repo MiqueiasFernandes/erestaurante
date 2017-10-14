@@ -31,10 +31,10 @@ export class NavbarComponent implements OnInit {
     version: string;
     permissoes :string[] = [];
     autoLogin = false;
-    dia = 0;
     comanda :Comanda;
     mesa :Mesa;
     isOpen = false;
+    dia = '';
 
     constructor(
         private loginService: LoginService,
@@ -52,7 +52,6 @@ export class NavbarComponent implements OnInit {
     ) {
         this.version = VERSION ? 'v' + VERSION : '';
         this.isNavbarCollapsed = true;
-        this.dia= new Date().getDay();
     }
 
     ngOnInit() {
@@ -85,6 +84,20 @@ export class NavbarComponent implements OnInit {
             (mesaEcomanda :{mesa :Mesa, comanda :Comanda}) => {
             this.mesa = mesaEcomanda.mesa;
             this.comanda = mesaEcomanda.comanda;
+        });
+
+        this.variaveis.cardapioObserver$.subscribe((dia) => {
+            this.dia = ' (';
+            switch (dia) {
+                case 0: this.dia += 'Dom'; break;
+                case 1: this.dia += 'Seg'; break;
+                case 2: this.dia += 'Ter'; break;
+                case 3: this.dia += 'Qua'; break;
+                case 4: this.dia += 'Qui'; break;
+                case 5: this.dia += 'Sex'; break;
+                case 6: this.dia += 'Sáb'; break;
+            }
+            this.dia += ')'
         });
 
         this.atualizar();
@@ -183,6 +196,10 @@ export class NavbarComponent implements OnInit {
             this.isOpen = false;
         });
         return modalRef;
+    }
+
+    setCardapio(dia) {
+        this.variaveis.setCardapioDay(dia);
     }
 
 }

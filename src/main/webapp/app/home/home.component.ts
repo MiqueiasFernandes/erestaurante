@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 
@@ -9,6 +9,7 @@ import {CardapioService} from "../entities/cardapio/cardapio.service";
 import {Cardapio} from "../entities/cardapio/cardapio.model";
 import {Produto} from "../entities/produto/produto.model";
 import {isNullOrUndefined} from "util";
+import {VariaveisService} from "../shared/utils/variaveis.service";
 
 @Component({
     selector: 'jhi-home',
@@ -18,13 +19,15 @@ import {isNullOrUndefined} from "util";
     ]
 
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit{
     account: Account;
     modalRef: NgbModalRef;
     modoCardapio :boolean = true;
     dia = '';
     dias :string[] = [];
     cardapio :Cardapio;
+    hoje = (new Date().getDay());
+    status = 1;
 
     constructor(
         private principal: Principal,
@@ -33,23 +36,47 @@ export class HomeComponent implements OnInit {
         private autoLoginService :AutologinService,
         private cardapioService :CardapioService,
         private dataUtils: JhiDataUtils,
+        private variaveis: VariaveisService
     ) {
         this.dias.push('Domingo');
         this.dias.push('Segunda');
         this.dias.push('Terça');
         this.dias.push('Quarta');
-        this.dias.push( 'Quinta');
+        this.dias.push('Quinta');
         this.dias.push('Sexta');
         this.dias.push('Sábado');
+    }
+
+    ngAfterViewInit(): void {
+        if(!this.modoCardapio || !this.cardapio){
+            this.autoLoginService.isAutoLogin().then((is) => {
+               this.modoCardapio = is;
+                if(this.modoCardapio) {
+                    this.montaCardapio(this.hoje);
+                    this.status = 3;
+                } else {
+                    this.status = 2;
+                }
+            });
+        }
     }
 
     ngOnInit() {
 
         this.principal.identity().then((account) => {
             this.account = account;
+            if (this.autoLoginService.accountIsAutologin(account)) {
+                this.status = 3;
+            } else {
+                this.status = 2;
+            }
         });
 
         this.registerAuthenticationSuccess();
+
+        this.variaveis.cardapioObserver$.subscribe((dia) => {
+            this.montaCardapio(dia);
+        });
     }
 
     registerAuthenticationSuccess() {
@@ -57,18 +84,22 @@ export class HomeComponent implements OnInit {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
                 this.account = account;
-                this.montaCardapio(new Date().getDay());
+                if(this.modoCardapio = this.autoLoginService.accountIsAutologin(account)) {
+                    this.montaCardapio(this.hoje);
+                    this.status = 3;
+                } else {
+                    this.status = 2;
+                }
             });
         });
 
         this.eventManager.subscribe('autologin', (message) => {
-            this.modoCardapio = message && message.content && message.content.startsWith('true');
-            this.montaCardapio(new Date().getDay());
+            this.modoCardapio = (message && message.content && message.content.startsWith('true'));
+            this.montaCardapio(this.hoje);
+            this.status = 3;
         });
 
-        this.autoLoginService.isAutoLogin().then((is) => {this.modoCardapio = is});
     }
-
 
     isAuthenticated() {
         return this.principal.isAuthenticated();
@@ -85,6 +116,8 @@ export class HomeComponent implements OnInit {
                     !isNullOrUndefined(cardapio.produtos) &&
                     cardapio.produtos.length > 0) {
                     this.cardapio = cardapio;
+                } else {
+                    this.cardapio = null;
                 }
             }
         );

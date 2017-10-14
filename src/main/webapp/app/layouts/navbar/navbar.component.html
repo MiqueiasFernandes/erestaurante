@@ -38,18 +38,18 @@
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);">
                     <span>
                         <i class="fa fa-cutlery" aria-hidden="true"></i>
-                        Cardápio
+                        Cardápio {{dia}}
                     </span>
                 </a>
                 <ul class="dropdown-menu" ngbDropdownMenu>
                     <li>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Domingo</a>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Segunda</a>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Terça</a>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Quarta</a>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Quinta</a>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Sexta</a>
-                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();">Sábado</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(0);">Domingo</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(1);">Segunda</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(2);">Terça</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(3);">Quarta</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(4);">Quinta</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(5);">Sexta</a>
+                        <a class="dropdown-item" href="javascript:void(0);" (click)="collapseNavbar();setCardapio(6);">Sábado</a>
                     </li>
                 </ul>
             </li>
