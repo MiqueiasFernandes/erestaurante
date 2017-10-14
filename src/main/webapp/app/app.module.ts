@@ -27,6 +27,7 @@ import {
 import { TableheaderComponent } from './layouts/tableheader/tableheader.component';
 import {PreferenciasService} from "./entities/preferencias.service";
 import {PrivilegiosService} from "./entities/privilegios.service";
+// import { QrScannerModule } from 'angular2-qrscanner';
 
 @NgModule({
     imports: [
@@ -38,6 +39,7 @@ import {PrivilegiosService} from "./entities/privilegios.service";
         ERestauranteAdminModule,
         ERestauranteAccountModule,
         ERestauranteEntityModule,
+        // QrScannerModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

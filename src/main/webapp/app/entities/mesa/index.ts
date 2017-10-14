@@ -6,3 +6,4 @@ export * from './mesa-delete-dialog.component';
 export * from './mesa-detail.component';
 export * from './mesa.component';
 export * from './mesa.route';
+export * from './select/select.component';

@@ -162,15 +162,12 @@ export class NavbarComponent implements OnInit {
     }
 
     setMesa() {
+        this.open();
         if (!this.variaveis.hasMesa()) {
-            this.open();
         } else {
             this.variaveis.update();
         }
     }
-
-
-
 
     open(): NgbModalRef {
         if (this.isOpen) {

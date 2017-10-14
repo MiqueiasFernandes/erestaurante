@@ -14,7 +14,10 @@ import {
     mesaRoute,
     mesaPopupRoute,
 } from './';
-import { SelectComponent } from './select/select.component';
+import {MesaSelectPopupComponent, SelectComponent} from './select/select.component';
+
+import { QrScannerModule } from 'angular2-qrscanner';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 const ENTITY_STATES = [
     ...mesaRoute,
@@ -24,7 +27,8 @@ const ENTITY_STATES = [
 @NgModule({
     imports: [
         ERestauranteSharedModule,
-        RouterModule.forRoot(ENTITY_STATES, { useHash: true })
+        RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
+        QrScannerModule
     ],
     declarations: [
         MesaComponent,
@@ -34,6 +38,7 @@ const ENTITY_STATES = [
         MesaPopupComponent,
         MesaDeletePopupComponent,
         SelectComponent,
+        MesaSelectPopupComponent
     ],
     entryComponents: [
         MesaComponent,
@@ -41,11 +46,12 @@ const ENTITY_STATES = [
         MesaPopupComponent,
         MesaDeleteDialogComponent,
         MesaDeletePopupComponent,
-        SelectComponent
+        SelectComponent,
+        MesaSelectPopupComponent
     ],
     providers: [
         MesaService,
-        MesaPopupService,
+        MesaPopupService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
