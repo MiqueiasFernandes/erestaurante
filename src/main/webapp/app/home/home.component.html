@@ -1,11 +1,13 @@
 
-<div [ngSwitch]="status">
+<div *ngIf="!isAuthenticated()">
+    Autenticando...
+</div>
 
+<div  *ngIf="isAuthenticated()" [ngSwitch]="status">
 
     <div *ngSwitchCase="1">
         Carregando...
     </div>
-
 
     <div *ngSwitchCase="2" class="row">
         <div class="col-md-3">
